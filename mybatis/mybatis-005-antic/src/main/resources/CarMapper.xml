@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.styyyds.mybatis.mapper.CarMapper">
+    <select id="selectByCarType" resultType="com.styyyds.mybatis.pojo.Car">
+        select
+            id,car_num as carNum,brand,guide_price as guidePrice,produce_time as produceTime,car_type as carType
+        from
+            t_car
+        where
+            <!--car_type = #{carType}-->
+            car_type = '${carType}'
+        <!--
+        原则上，能用#{}就不用${},
+        什么时候必须用${}?
+        当需要进行sql语句关键字拼接的时候，必须使用${}
+            -->
+    </select>
+    <select id="selectAll" resultType="com.styyyds.mybatis.pojo.Car">
+        select
+            id,car_num as carNum,brand,guide_price as guidePrice,produce_time as produceTime,car_type as carType
+        from
+            t_car
+        <!--order by carNum #{key}-->
+            order by carNum ${key}
+    </select>
+    <delete id="deleteByCarId">
+        delete from t_car where id in(${ids})
+    </delete>
+    <select id="selectLikeByBrand" resultType="com.styyyds.mybatis.pojo.Car">
+        select
+            id,car_num as carNum,brand,guide_price as guidePrice,produce_time as produceTime,car_type as carType
+        from
+            t_car
+        where
+            <!--brand like '%${brand}%'-->
+            <!--brand like concat('%',#{brand},'%')-->
+            brand like "%"#{brand}"%"
+    </select>
+
+</mapper>
