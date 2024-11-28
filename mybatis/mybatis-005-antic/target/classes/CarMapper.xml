@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.styyyds.mybatis.mapper.CarMapper">
-    <select id="selectByCarType" resultType="com.styyyds.mybatis.pojo.Car">
+    <select id="selectByCarType" resultType="Car">
         select
             id,car_num as carNum,brand,guide_price as guidePrice,produce_time as produceTime,car_type as carType
         from
@@ -18,7 +18,7 @@
         当需要进行sql语句关键字拼接的时候，必须使用${}
             -->
     </select>
-    <select id="selectAll" resultType="com.styyyds.mybatis.pojo.Car">
+    <select id="selectAll" resultType="Car">
         select
             id,car_num as carNum,brand,guide_price as guidePrice,produce_time as produceTime,car_type as carType
         from
@@ -29,7 +29,7 @@
     <delete id="deleteByCarId">
         delete from t_car where id in(${ids})
     </delete>
-    <select id="selectLikeByBrand" resultType="com.styyyds.mybatis.pojo.Car">
+    <select id="selectLikeByBrand" resultType="Car">
         select
             id,car_num as carNum,brand,guide_price as guidePrice,produce_time as produceTime,car_type as carType
         from
@@ -39,5 +39,11 @@
             <!--brand like concat('%',#{brand},'%')-->
             brand like "%"#{brand}"%"
     </select>
+    <insert id="insertUseGeneratedKeys" useGeneratedKeys="true" keyProperty="id">
+        insert into t_car(id,car_num,brand,guide_price,produce_time,car_type) values(null,#{carNum},#{brand},#{guidePrice},#{produceTime},#{carType})
+    </insert>
+    <insert id="insert" useGeneratedKeys="false">
+        insert into t_car(id,car_num,brand,guide_price,produce_time,car_type) values(null,#{carNum},#{brand},#{guidePrice},#{produceTime},#{carType})
+    </insert>
 
 </mapper>

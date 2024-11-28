@@ -20,4 +20,6 @@ public interface CarMapper {
     List<Car> selectAll(String ascOrDesc);
     int deleteByCarId(String ids);
     List<Car> selectLikeByBrand(String brand);
+    void insertUseGeneratedKeys(Car car);
+    void insert(Car car);
 }

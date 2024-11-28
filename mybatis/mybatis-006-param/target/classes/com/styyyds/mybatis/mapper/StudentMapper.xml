@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.styyyds.mybatis.mapper.StudentMapper">
+    <select id="selectByName" resultType="student">
+        select * from t_student where name = #{name}
+    </select>
+    <select id="selectById" resultType="student">
+        select * from t_student where id = #{id}
+    </select>
+    <select id="selectByBirth" resultType="student">
+        select * from t_student where birth = #{birth}
+    </select>
+    <select id="selectBySex" resultType="student">
+        select * from t_student where sex = #{sex}
+    </select>
+    <!--
+        <select id="selectByName" resultType="student" parameterType="java.lang.String">
+            select * from t_student
+            where
+            name = #{name, javaType=String, jdbcType=VARCHAR}
+        </select>
+        javaType告诉mybaits在java中的类型，jdbcType告诉mybatis在数据库中的类型
+     -->
+    <select id="selectByParamMap" resultType="student">
+        select * from t_student where name = #{nameKey} and age = #{ageKey}
+    </select>
+    <!--
+    这种方式是手动封装Map集合，将每个条件以key和value的形式存放到集合中。然后在使用的时候通过#{map集合的key}来取值。
+    -->
+    <insert id="insert">
+        insert into t_student values(null,#{name},#{age},#{height},#{birth},#{sex})
+    </insert>
+    <select id="selectByNameAndSex" resultType="student">
+        select * from t_student where name = #{param1} and sex = #{param2}
+        <!--  select * from t_student where name = #{arg0} and sex = #{arg1}
+        ● arg0 是第一个参数
+        ● param1是第一个参数
+        ● arg1 是第二个参数
+        ● param2是第二个参数
+        实现原理：实际上在mybatis底层会创建一个map集合，以arg0/param1为key，以方法上的参数为value，例如以下代码：
+        Map<String,Object> map = new HashMap<>();
+        map.put("arg0", name);
+        map.put("arg1", sex);
+        map.put("param1", name);
+        map.put("param2", sex);
+
+        所以可以这样取值：#{arg0} #{arg1} #{param1} #{param2}
+        其本质就是#{map集合的key}
+        使用mybatis3.4.2之前的版本时：要用#{0}和#{1}这种形式。
+        -->
+    </select>
+    <select id="selectByNameAndAge" resultType="student">
+        select * from t_student where name = #{name} and age = #{age}
+    </select>
+<!---->
+</mapper>
